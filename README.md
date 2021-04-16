@@ -242,3 +242,42 @@ Setelah build berhasil dilakukan, sekarang container bisa di run dengan command 
 Untuk cek apakah service berhasil jalan semua atau tidak dengan menggunakan command
 
 ``` docker ps```
+
+### Cache Laravel
+Untuk jaga-jaga jangan lupa melakukan cache ketika mengubah file Docker
+
+```cd /var/www/penugasan-kelompok```
+
+```docker-compose exec app php artisan config:cache```
+
+### Setting MySQL
+Masuk kedalam MySQL Docker Container dengan cara : 
+
+```docker-compose exec db /bin/bash```
+
+Kemudian masuk kedalam MySQL dengan perintah : 
+
+```mysql -u root -p```
+
+Berikan akses Database MySQL kepada user yang dipakai di laravel : 
+
+```GRANT ALL ON * . * TO 'root'@'localhost' IDENTIFIED BY 'penugasan';```
+
+Flush Privileges untuk memberitahu perubahan pada MySQL
+
+```FLUSH PRIVILEGES;```
+
+Jika sudah dapat keluar dengan command 
+
+```EXIT```
+
+### Run Artisan Migrate di Folder Laravel
+
+```docker-compose exec app php artisan migrate```
+
+Jika migration berhasil maka Deploy selesai dilakukan.
+
+## Referensi
+
+- https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose
+- https://www.digitalocean.com/community/tutorials/how-to-install-and-set-up-laravel-with-docker-compose-on-ubuntu-20-04
