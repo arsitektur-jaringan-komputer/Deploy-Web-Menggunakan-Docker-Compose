@@ -33,7 +33,7 @@ Hal yang harus dilakukan adalah masuk kedalam folder repository laravel berada, 
 
 ```docker run --rm -v $(pwd):/app composer install```
 
-```sudo chown -R $USER:$USER /var/www/penugasan-kelompok``` atau ```sudo chmod -R 777 /var/www/penugasan-kelompok```
+```sudo chown -R $USER:$USER /var/www/penugasan-kelompok``` dan ```sudo chmod -R 777 /var/www/penugasan-kelompok```
 
 ### Membuat docker-compose.yml pada folder laravel
 Dalam file docker-compose.yml akan disimpan apasaja service yang akan dipakai didalam container docker nantinya, seperti PHP, MySQL, dan NGINX.
