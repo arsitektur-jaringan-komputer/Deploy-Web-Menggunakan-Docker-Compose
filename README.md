@@ -24,16 +24,19 @@ Penugasan Oprec Camin Periode 2021 - Kelompok 1
 ### Clone Repository Laravel kedalam Server Linux
 Clone Repository Laravel sesuai kebutuhan dan tujuan masing-masing, dalam kasus ini kami clone dari repo laravel yang sudah tersedia dan menamakan foldernya dengan penugasan-kelompok (dalam kasus kami, repo disimpan didalam folder /var/www/)
 
-``` git clone https://gitlab.com/kuuhaku86/web-penugasan-individu penugasan-kelompok```
+```bash
+git clone https://gitlab.com/kuuhaku86/web-penugasan-individu penugasan-kelompok
+```
 
 ### Composer Install Menggunakan Docker
 Hal yang harus dilakukan adalah masuk kedalam folder repository laravel berada, kemudian jalankan perintah docker untuk execute composer install, dan set Permission pada directory repo laravel
 
-``` cd /var/www/penugasan-kelompok```
-
-```docker run --rm -v $(pwd):/app composer install```
-
-```sudo chown -R $USER:$USER /var/www/penugasan-kelompok``` dan ```sudo chmod -R 777 /var/www/penugasan-kelompok```
+```bash
+cd /var/www/penugasan-kelompok
+docker run --rm -v $(pwd):/app composer install
+sudo chown -R $USER:$USER /var/www/penugasan-kelompok
+sudo chmod -R 777 /var/www/penugasan-kelompok
+```
 
 ### Membuat docker-compose.yml pada folder laravel
 Dalam file docker-compose.yml akan disimpan apasaja service yang akan dipakai didalam container docker nantinya, seperti PHP, MySQL, dan NGINX.
@@ -125,9 +128,11 @@ Type network yang kami pakai adalah bridge.
 ### Membuat DockerFile
 Fungsi DockerFile adalah custom image yang dimana bisa digunakan untuk install tools atau aplikasi yang dibutuhkan nantinya pada web yang ingin kita deploy.
 
-``` cd /var/www/penugasan-kelompok```
+```bash
+cd /var/www/penugasan-kelompok
+sudo nano DockerFile
+```
 
-``` sudo nano DockerFile```
 *Note : Jangan lupa sesuaikan versi php dengan kebutuhan
 
 *Untuk File Full dapat dilihat di repo github kami dengan file yang bernama DockerFile
@@ -135,11 +140,11 @@ Fungsi DockerFile adalah custom image yang dimana bisa digunakan untuk install t
 ### Konfigurasi PHP
 Buat folder PHP pada repo laravel
 
-``` cd /var/www/penugasan-kelompok```
-
-``` mkdir php```
-
-``` sudo nano /php/local.ini```
+```bash
+cd /var/www/penugasan-kelompok
+mkdir php
+sudo nano /php/local.ini
+```
 
 Isi File local.ini sesuai kebutuhan Aplikasi Web 
 ```
@@ -150,11 +155,11 @@ post_max_size=40M
 ### Konfigurasi NGINX
 Buat folder NGINX pada repo laravel
 
-``` cd /var/www/penugasan-kelompok```
-
-``` mkdir -p nginx/conf.d```
-
-``` sudo nano /nginx/conf.d/app.conf```
+```bash
+cd /var/www/penugasan-kelompok
+mkdir -p nginx/conf.d
+sudo nano /nginx/conf.d/app.conf
+```
 
 Sesuaikan Isi file app.conf dengan kebutuhan Aplikasi Web dan Port sesuai yang sudah diatur sebelumnya
 ```
@@ -183,11 +188,11 @@ server {
 ### Konfigurasi MySQL
 Buat folder mysql pada repo laravel
 
-``` cd /var/www/penugasan-kelompok```
-
-``` mkdir mysql```
-
-``` sudo nano /mysql/my.cnf```
+```bash
+cd /var/www/penugasan-kelompok
+mkdir mysql
+sudo nano /mysql/my.cnf
+```
 
 Isi File my.cnf sesuai kebutuhan WebApp 
 
@@ -199,7 +204,9 @@ general_log_file = /var/lib/mysql/general.log
 
 ### Buatlah .env File pada Folder Laravel
 
-```sudo nano .env```
+```bash
+sudo nano .env
+```
 
 Isi file .env sesuai kebutuhan dan aturan pada docker-compose.yml yang sudah dibuat pada step sebelumnya
 
@@ -225,55 +232,76 @@ CACHE_DRIVER=file
 QUEUE_CONNECTION=sync
 ```
 Untuk APP_KEY dibuat dengan : 
-``` php artisan key:generate```
+```bash
+php artisan key:generate
+```
 
 Untuk DB, CONNECTION menggunakan "mysql", HOST menggunakan nama container MySQL di docker yaitu dalam kasus kami "db", Untuk PORT, DATABASE, USERNAME, PASSWORD sesuaikan kondisi.
 
 ### Build Application Image
 Setelah semua step diatas sudah dilakukan dan tidak ada kendala maka, build App Image dengan command : 
 
-``` docker-compose build app ```
+```bash
+docker-compose build app
+```
 
 ### Run Docker Environment
 Setelah build berhasil dilakukan, sekarang container bisa di run dengan command :
 
-```docker-compose up -d```
+```bash
+docker-compose up -d
+```
 
 Untuk cek apakah service berhasil jalan semua atau tidak dengan menggunakan command
 
-``` docker ps```
+```bash
+docker ps
+```
 
 ### Cache Laravel
 Untuk jaga-jaga jangan lupa melakukan cache ketika mengubah file Docker
 
-```cd /var/www/penugasan-kelompok```
-
-```docker-compose exec app php artisan config:cache```
+```bash
+cd /var/www/penugasan-kelompok
+docker-compose exec app php artisan config:cache
+```
 
 ### Setting MySQL
 Masuk kedalam MySQL Docker Container dengan cara : 
 
-```docker-compose exec db /bin/bash```
+```bash
+docker-compose exec db /bin/bash
+```
 
 Kemudian masuk kedalam MySQL dengan perintah : 
 
-```mysql -u root -p```
+```bash
+mysql -u root -p
+```
 
 Berikan akses Database MySQL kepada user yang dipakai di laravel : 
 
-```GRANT ALL ON * . * TO 'root'@'localhost' IDENTIFIED BY 'penugasan';```
+```sql
+GRANT ALL ON * . * TO 'root'@'localhost' IDENTIFIED BY 'penugasan';
+```
 
 Flush Privileges untuk memberitahu perubahan pada MySQL
 
-```FLUSH PRIVILEGES;```
+```sql
+FLUSH PRIVILEGES;
+```
 
 Jika sudah dapat keluar dengan command 
 
-```EXIT```
+```sql
+EXIT
+```
 
 ### Run Artisan Migrate di Folder Laravel
 
-```docker-compose exec app php artisan migrate```
+```bash
+docker-compose exec app php artisan migrate
+```
 
 Jika migration berhasil maka Deploy selesai dilakukan.
 
