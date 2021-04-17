@@ -104,7 +104,7 @@ Untuk Service MySQL :
   networks:
    - app-network
 ```
-Kami menggunakan nama containernya "db" untuk service MySQL, untuk port kami menggunakan port 3307 untuk local yang nantinya akan di forward ke port 3306 didalam container docker sehingga untuk .env laravel nanti bisa menggunakan 3306 (kasus ini terjadi karena untuk port 3306 di local sudah terinstall MySQL untuk keperluan project lain), untuk environment sesuaikan dengan data masing-masing dan kebutuhan masing-masing (nantinya akan dipakai di .env laravel)
+Kami menggunakan nama containernya "db" untuk service MySQL, untuk port kami menggunakan port 3307 untuk local yang nantinya akan di forward ke port 3306 didalam container docker sehingga untuk .env laravel nanti bisa menggunakan 3306 (kasus ini terjadi karena untuk port 3306 di local sudah terinstall MySQL untuk keperluan project lain), untuk environment sesuaikan dengan data masing-masing dan kebutuhan masing-masing (nantinya akan dipakai di .env laravel). MySQL pada container akan di bind-mount ke `etc/mysql/my.cnf/` yang ada pada host.
 
 Untuk Network dan Volumes :
 ```
