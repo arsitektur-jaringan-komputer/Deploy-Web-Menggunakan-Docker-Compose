@@ -271,6 +271,10 @@ Jika sudah dapat keluar dengan command
 
 ```EXIT```
 
+### Buat configurasi cache file 
+
+```docker-compose exec app php artisan config:cache ```
+
 ### Run Artisan Migrate di Folder Laravel
 
 ```docker-compose exec app php artisan migrate```
